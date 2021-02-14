@@ -1,13 +1,13 @@
-package com.example.sisvendas;
+package com.example.salessystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SisvendasApplication {
+public class SalesSystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SisvendasApplication.class, args);
+		SpringApplication.run(SalesSystemApplication.class, args);
 	}
 
 }

@@ -26,7 +26,7 @@ public class SalesSystemApplication implements CommandLineRunner{
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
 		Categoria cat3 = new Categoria(null, "Telefonia");
@@ -36,16 +36,19 @@ public class SalesSystemApplication implements CommandLineRunner{
 		Produto p1 = new Produto(null, "Computador", 2000.0);
 		Produto p2 = new Produto(null, "Impressora", 800.0);
 		Produto p3 = new Produto(null, "Mouse", 80.0);
+		Produto p4 = new Produto(null, "Celular", 1080.0);
 		
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
+		cat3.getProdutos().addAll(Arrays.asList(p4));
 		
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
+		p4.getCategorias().addAll(Arrays.asList(cat3));
 		
 		repo.saveAll(Arrays.asList(cat2, cat1, cat3, cat4, cat5));
-		prod.saveAll(Arrays.asList(p1, p2, p3));
+		prod.saveAll(Arrays.asList(p1, p2, p3, p4));
 		
 	}
 

@@ -1,5 +1,7 @@
 package com.example.salessystem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,42 +14,55 @@ import com.example.salessystem.domain.Cidade;
 import com.example.salessystem.domain.Cliente;
 import com.example.salessystem.domain.Endereco;
 import com.example.salessystem.domain.Estado;
+import com.example.salessystem.domain.Pagamento;
+import com.example.salessystem.domain.PagamentoComBoleto;
+import com.example.salessystem.domain.PagamentoComCartao;
+import com.example.salessystem.domain.Pedido;
 import com.example.salessystem.domain.Produto;
+import com.example.salessystem.domain.enums.EstadoPagamento;
 import com.example.salessystem.domain.enums.TipoCliente;
 import com.example.salessystem.repositories.CategoriaRepository;
 import com.example.salessystem.repositories.CidadeRepository;
 import com.example.salessystem.repositories.ClienteRepository;
 import com.example.salessystem.repositories.EnderecoRepository;
 import com.example.salessystem.repositories.EstadoRepository;
+import com.example.salessystem.repositories.PagamentoRepository;
+import com.example.salessystem.repositories.PedidoRepository;
 import com.example.salessystem.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class SalesSystemApplication implements CommandLineRunner{
 
 	@Autowired
-	CategoriaRepository repo;
+	private CategoriaRepository repo;
 	
 	@Autowired
-	ProdutoRepository prod;
+	private ProdutoRepository prod;
 	
 	@Autowired
-	CidadeRepository cidadeRepository;
+	private CidadeRepository cidadeRepository;
 	
 	@Autowired
-	EstadoRepository estadoRepository;
+	private EstadoRepository estadoRepository;
 	
 	@Autowired
-	ClienteRepository clienteRepository;
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
-	EnderecoRepository enderecoRepository;
+	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SalesSystemApplication.class, args);
 	}
 
 	@Override
-	public void run(String... args) {
+	public void run(String... args) throws ParseException {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
 		Categoria cat3 = new Categoria(null, "Telefonia");
@@ -100,6 +115,21 @@ public class SalesSystemApplication implements CommandLineRunner{
 		
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("03/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 						
 	}
 

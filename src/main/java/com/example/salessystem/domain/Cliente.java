@@ -12,10 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.example.salessystem.domain.enums.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Cliente implements Serializable{
@@ -30,6 +30,7 @@ public class Cliente implements Serializable{
 	private String cpfOuCnpj;
 	private Integer tipoCliente;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
@@ -38,6 +39,10 @@ public class Cliente implements Serializable{
 	private Set<String> telefones = new HashSet<>();//não foi necessário criar a classe telefones, visto que seria muito simples com apenas um atributo. 
 													//O tipo Set impede que existam valores repetidos
 
+	public Cliente() {
+		
+	}
+	
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
 		super();
 		this.id = id;
@@ -80,7 +85,7 @@ public class Cliente implements Serializable{
 	}
 
 	public TipoCliente getTipoCliente() {
-		return TipoCliente.toEnum(tipoCliente);
+		return TipoCliente.toEnum(this.tipoCliente);
 	}
 
 	public void setTipoCliente(TipoCliente tipoCliente) {

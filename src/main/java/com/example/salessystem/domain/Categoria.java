@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Categoria implements Serializable{
@@ -23,7 +23,7 @@ public class Categoria implements Serializable{
 	private String nome;
 	
 	//Associação com produtos
-	@JsonManagedReference //neste lado coloca a anotação para não gerar loop nas buscas
+	//@JsonManagedReference neste lado coloca a anotação para não gerar loop nas buscas
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	

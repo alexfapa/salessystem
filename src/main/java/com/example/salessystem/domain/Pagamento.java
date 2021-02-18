@@ -11,7 +11,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.example.salessystem.domain.enums.EstadoPagamento;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) //para gerar um tabelão contendo os campos das duas tabelas herdeiras
@@ -23,7 +23,7 @@ public abstract class Pagamento implements Serializable{
 	private Integer id;
 	private Integer estado;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId //indica que o id do pedido aqui nesta classe será o mesmo id do pedido na classe pedido

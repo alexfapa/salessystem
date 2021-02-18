@@ -15,8 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.example.salessystem.domain.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Cliente implements Serializable{
@@ -31,7 +30,7 @@ public class Cliente implements Serializable{
 	private String cpfOuCnpj;
 	private Integer tipoCliente;
 	
-	@JsonManagedReference
+	
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
@@ -40,7 +39,7 @@ public class Cliente implements Serializable{
 	private Set<String> telefones = new HashSet<>();//não foi necessário criar a classe telefones, visto que seria muito simples com apenas um atributo. 
 												    //O tipo Set impede que existam valores repetidos
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	

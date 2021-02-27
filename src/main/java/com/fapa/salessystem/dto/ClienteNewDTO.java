@@ -16,11 +16,13 @@ public class ClienteNewDTO implements Serializable{
 	private String bairro;
 	private String cep;
 	
+	private Integer cidadeId;
+	
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
 	
-	private Integer cidadeId;
+	
 	
 	public ClienteNewDTO() {
 		
@@ -98,6 +100,14 @@ public class ClienteNewDTO implements Serializable{
 		this.cep = cep;
 	}
 
+	public Integer getCidadeId() {
+		return cidadeId;
+	}
+
+	public void setCidadeId(Integer cidadeId) {
+		this.cidadeId = cidadeId;
+	}
+
 	public String getTelefone1() {
 		return telefone1;
 	}
@@ -121,13 +131,6 @@ public class ClienteNewDTO implements Serializable{
 	public void setTelefone3(String telefone3) {
 		this.telefone3 = telefone3;
 	}
-
-	public Integer getCidadeId() {
-		return cidadeId;
-	}
-
-	public void setCidadeId(Integer cidadeId) {
-		this.cidadeId = cidadeId;
-	}
+	
 	
 }

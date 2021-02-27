@@ -67,7 +67,7 @@ public class ClienteService {
 			 * para esta excessão deve ser implementado para o resource no arquivo
 			 * ResouceExceptionHandler no pacote service.excptions
 			 * */ 
-			throw new DataIntegrityException("Não é possível excluir, pois há entidades relacionadas!");
+			throw new DataIntegrityException("Não é possível excluir, pois há pedidos relacionadas!");
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class ClienteService {
 	public Cliente fromDTO(ClienteNewDTO objDto) {
 		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipoCliente()));
 		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
-		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getBairro(), objDto.getComplemento(),objDto.getCep(), cli, cid);
+		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);
 		cli.getEnderecos().add(end);
 		cli.getTelefones().add(objDto.getTelefone1());
 		

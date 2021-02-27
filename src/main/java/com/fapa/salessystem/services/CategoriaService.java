@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.fapa.salessystem.domain.Categoria;
+import com.fapa.salessystem.domain.Cliente;
 import com.fapa.salessystem.dto.CategoriaDTO;
 import com.fapa.salessystem.repositories.CategoriaRepository;
 import com.fapa.salessystem.services.exceptions.DataIntegrityException;
@@ -35,8 +36,13 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return obj = repo.save(obj);
+		Categoria newObj = find(obj.getId()); 
+		updateData(newObj, obj);
+		return obj = repo.save(newObj);
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 	
 	public void delete(Integer id) {

@@ -49,7 +49,7 @@ public class ClienteService {
 			 * para esta excessão deve ser implementado para o resource no arquivo
 			 * ResouceExceptionHandler no pacote service.excptions
 			 * */ 
-			throw new DataIntegrityException("Não foi é possível excluir Clientes com Produtos associados!");
+			throw new DataIntegrityException("Não é possível excluir, pois há entidades relacionadas!");
 		}
 	}
 	

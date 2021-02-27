@@ -10,8 +10,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fapa.salessystem.domain.Categoria;
 import com.fapa.salessystem.dto.CategoriaDTO;
-import com.fapa.salessystem.resources.exceptions.StandardError;
 import com.fapa.salessystem.services.CategoriaService;
-import com.sun.xml.bind.api.impl.NameConverter.Standard;
-
-
 
 
 @RestController

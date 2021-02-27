@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.fapa.salessystem.domain.Categoria;
-import com.fapa.salessystem.domain.Cliente;
 import com.fapa.salessystem.dto.CategoriaDTO;
 import com.fapa.salessystem.repositories.CategoriaRepository;
 import com.fapa.salessystem.services.exceptions.DataIntegrityException;

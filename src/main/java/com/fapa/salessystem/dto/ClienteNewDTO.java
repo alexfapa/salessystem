@@ -2,27 +2,54 @@ package com.fapa.salessystem.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import com.fapa.salessystem.services.validation.ClienteInsert;
+
+
+/*esta anotação foi criada com as classes ClienteInsert e ClienteInsertValidator
+ *  personalizando a validação do CPF ou CNPJ através do campo cpfOuCNPJ
+*/
+@ClienteInsert  
 public class ClienteNewDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Size(min = 5, max = 80, message = "O campo deve possuir entre 5 e 80 caracteres!")
 	private String nome;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
+	@Email(message = "Email inválido")
 	private String email;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String cpfOuCnpj;
 	private Integer tipoCliente;
 	
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String logradouro;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String numero;
+	
 	private String complemento;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String bairro;
+	
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String cep;
 	
 	private Integer cidadeId;
 	
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String telefone1;
+	
 	private String telefone2;
 	private String telefone3;
-	
-	
 	
 	public ClienteNewDTO() {
 		

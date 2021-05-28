@@ -12,10 +12,13 @@ import javax.persistence.OneToOne;
 
 import com.fapa.salessystem.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) //para gerar um tabelão contendo os campos das duas tabelas herdeiras
-public abstract class Pagamento implements Serializable{
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type") //esta anotação serve para indicar que a classe pagamento terá um campo adicional chamado @type
+public abstract class Pagamento implements Serializable{                                          //a mesma se referencia ao tipo de pagamento (com boleto ou cartão)
 	
 	private static final long serialVersionUID = 1L;
 	

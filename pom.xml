@@ -12,6 +12,7 @@
 	<groupId>com.fapa</groupId>
 	<artifactId>sisvendas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>sisvendas</name>
 	<description>Projeto de app de vendas</description>
 	<properties>
@@ -23,7 +24,8 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- As duas dependencias abaixo permitem que as validações Bean Validation funcionem -->
+		<!-- As duas dependencias abaixo permitem que as validações Bean Validation 
+			funcionem -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
@@ -58,6 +60,16 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 	</dependencies>
 

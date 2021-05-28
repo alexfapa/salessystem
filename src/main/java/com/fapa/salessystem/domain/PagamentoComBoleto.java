@@ -6,8 +6,10 @@ import javax.persistence.Entity;
 
 import com.fapa.salessystem.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("pagamentoComBoleto") //esta anotação serve para definir o conteúdo do campo @type que está na classe pai
 public class PagamentoComBoleto extends Pagamento{
 	
 	private static final long serialVersionUID = 1L;

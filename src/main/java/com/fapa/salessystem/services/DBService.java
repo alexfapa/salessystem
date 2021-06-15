@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fapa.salessystem.domain.Categoria;
@@ -32,6 +33,9 @@ import com.fapa.salessystem.repositories.ProdutoRepository;
 
 @Service
 public class DBService {
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	@Autowired
 	private CategoriaRepository repo;
@@ -119,8 +123,8 @@ public class DBService {
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
-		Cliente cli1 = new Cliente(null, "Maria Silva", "francisco.alex@meta.com.br", "36378912377", TipoCliente.PESSOAFISICA);
-		Cliente cli2 = new Cliente(null, "Alex Pinto", "alexfapa32@outlook.com", "000.000.000-00", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(null, "Maria Silva", "alexfapa32@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		Cliente cli2 = new Cliente(null, "Alex Pinto", "alexfapa32@outlook.com", "000.000.000-00", TipoCliente.PESSOAFISICA, pe.encode("321"));
 		
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 		cli2.getTelefones().addAll(Arrays.asList("(88)997776277", "(85)995583020"));

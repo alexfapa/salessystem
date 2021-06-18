@@ -20,6 +20,7 @@ import com.fapa.salessystem.domain.PagamentoComCartao;
 import com.fapa.salessystem.domain.Pedido;
 import com.fapa.salessystem.domain.Produto;
 import com.fapa.salessystem.domain.enums.EstadoPagamento;
+import com.fapa.salessystem.domain.enums.Perfil;
 import com.fapa.salessystem.domain.enums.TipoCliente;
 import com.fapa.salessystem.repositories.CategoriaRepository;
 import com.fapa.salessystem.repositories.CidadeRepository;
@@ -111,63 +112,78 @@ public class DBService {
 		prod.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 		
 		Estado est1 = new Estado(null, "Minas Gerais");
-		Estado est2 = new Estado(null, "São Paulo"); 
+		Estado est2 = new Estado(null, "São Paulo");
+		Estado est3 = new Estado(null, "Ceará");
 		
 		Cidade c1 = new Cidade(null, "Uberlândoa", est1);
 		Cidade c2 = new Cidade(null, "São Paulo", est2);
 		Cidade c3 = new Cidade(null, "Campinas", est2);
+		Cidade c4 = new Cidade(null, "Itapipoca", est3);
 		
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		est2.getCidades().addAll(Arrays.asList(c4));
 		
-		estadoRepository.saveAll(Arrays.asList(est1, est2));
-		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		estadoRepository.saveAll(Arrays.asList(est1, est2, est3));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3, c4));
 		
 		Cliente cli1 = new Cliente(null, "Maria Silva", "alexfapa32@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
 		Cliente cli2 = new Cliente(null, "Alex Pinto", "alexfapa32@outlook.com", "000.000.000-00", TipoCliente.PESSOAFISICA, pe.encode("321"));
-		Cliente cli3 = new Cliente(null, "Duda", "duda@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		Cliente cli3 = new Cliente(null, "Duda", "duda@gmail.com", "000.000.000-01", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		
+		cli2.addPerfil(Perfil.ADMIN);
 		
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 		cli2.getTelefones().addAll(Arrays.asList("(88)997776277", "(85)995583020"));
+		cli3.getTelefones().addAll(Arrays.asList("(85)998718768", "(85)995583020"));
 		
 		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto. 20", "Jardim", "38228024", cli1, c1);
 		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "3877732", cli1, c2);
 		Endereco e3 = new Endereco(null, "Rua Êubia Barroso", "2313", "-", "Boa Vista", "60730115", cli2, c3);
+		Endereco e4 = new Endereco(null, "Rua Êubia Barroso", "2313", "-", "Boa Vista", "60730115", cli3, c4);
 		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		cli2.getEnderecos().addAll(Arrays.asList(e3));
+		cli3.getEnderecos().addAll(Arrays.asList(e3, e4));
 		
 		
-		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
-		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2, e3, e4));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		Pedido ped1 = new Pedido(null, sdf.parse("03/09/2017 10:32"), cli1, e1);
 		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		Pedido ped3 = new Pedido(null, sdf.parse("16/06/2021 10:35"), cli3, e4);
 		
 		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 		ped1.setPagamento(pagto1);
 		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 		ped2.setPagamento(pagto2);
 		
-		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		Pagamento pagto3 = new PagamentoComBoleto(null, EstadoPagamento.QUITADO, ped3, sdf.parse("16/06/2021 10:35"), null);
+		ped3.setPagamento(pagto3);
 		
-		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
-		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		cli3.getPedidos().addAll(Arrays.asList(ped3));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2, ped3));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2, pagto3));
 		
 		ItemPedido ip1 = new ItemPedido(ped1, p1, 200.00, 1, 2000.00);
 		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
 		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		ItemPedido ip4 = new ItemPedido(ped3, p5, 0.00, 2, 50.00);
 		
 		ped1.getItens().addAll(Arrays.asList(ip1, ip3));
 		ped2.getItens().addAll(Arrays.asList(ip3));
+		ped3.getItens().addAll(Arrays.asList(ip4));
 		
 		p1.getItens().addAll(Arrays.asList(ip1));
 		p2.getItens().addAll(Arrays.asList(ip3));
 		p3.getItens().addAll(Arrays.asList(ip2));
 		
-		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3, ip4));
 
 	}
 }

@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import com.fapa.salessystem.domain.Cidade;
 import com.fapa.salessystem.domain.Cliente;
 import com.fapa.salessystem.domain.Endereco;
+import com.fapa.salessystem.domain.enums.Perfil;
 import com.fapa.salessystem.domain.enums.TipoCliente;
 import com.fapa.salessystem.dto.ClienteDTO;
 import com.fapa.salessystem.dto.ClienteNewDTO;
 import com.fapa.salessystem.repositories.ClienteRepository;
 import com.fapa.salessystem.repositories.EnderecoRepository;
+import com.fapa.salessystem.security.UserSS;
+import com.fapa.salessystem.services.exceptions.AuthorizationException;
 import com.fapa.salessystem.services.exceptions.DataIntegrityException;
 import com.fapa.salessystem.services.exceptions.ObjectNotFoundException;
 
@@ -38,6 +41,13 @@ public class ClienteService {
 	EnderecoRepository enderecoRepository;
 	
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: "+ Cliente.class.getName()));
@@ -52,9 +62,11 @@ public class ClienteService {
 	}
 	
 	public Cliente update(Cliente obj) {
-		Cliente newObj = find(obj.getId()); 
+		Cliente newObj;
+		newObj = find(obj.getId());
 		updateData(newObj, obj);
-		return obj = repo.save(newObj);
+		return obj = repo.save(newObj); 
+		
 	}
 	//método auxiliar para instaciar os dados a serem atualizados corretamente sem lançar os demais valores como nulos
 	private void updateData(Cliente newObj, Cliente obj) {
@@ -62,7 +74,7 @@ public class ClienteService {
 		newObj.setEmail(obj.getEmail());
 	}
 
-	public void delete(Integer id) {
+	public void delete(Integer id) throws Exception {
 		find(id);
 		try {
 			repo.deleteById(id);

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -41,9 +42,11 @@ public class ClienteResource {
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
-		Cliente obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<Cliente> find(@PathVariable Integer id) throws Exception {
+		Cliente obj;
+			obj = service.find(id);
+			return ResponseEntity.ok().body(obj);
+		
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -70,7 +73,7 @@ public class ClienteResource {
 	
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) throws Exception{
 		Cliente obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
@@ -79,7 +82,7 @@ public class ClienteResource {
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Cliente> delete(@PathVariable Integer id) {
+	public ResponseEntity<Cliente> delete(@PathVariable Integer id) throws Exception {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import com.fapa.salessystem.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) //para gerar um tabelão contendo os campos das duas tabelas herdeiras

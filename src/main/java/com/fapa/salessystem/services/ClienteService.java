@@ -1,5 +1,6 @@
 package com.fapa.salessystem.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fapa.salessystem.domain.Cidade;
 import com.fapa.salessystem.domain.Cliente;
@@ -39,6 +41,9 @@ public class ClienteService {
 	
 	@Autowired
 	EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	public Cliente find(Integer id) {
 		
@@ -117,6 +122,10 @@ public class ClienteService {
 		}
 		
 		return cli;
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 
 }

@@ -1,0 +1,18 @@
+=============Aquivo aplication.properties sem as chaves de segurança=========================
+
+spring.profiles.active=test
+
+default.sender=alexfapa32@gmail.com
+default.recipient=alexfapa32@gmail.com
+
+jwt.secret=SequenciaDeCaracteresParaAssinarToken
+jwt.expiration=86400000
+
+aws.access_key_id=
+aws.secret_access_key=
+s3.bucket=salesfystemfapadevelop
+s3.region=sa-east-1
+
+img.prefix.client.profile=cp
+
+img.profile.size=200

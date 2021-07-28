@@ -56,6 +56,8 @@ public class ClienteService {
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: "+ Cliente.class.getName()));
+		
+		
 	}
 	
 	@Transactional
@@ -67,8 +69,7 @@ public class ClienteService {
 	}
 	
 	public Cliente update(Cliente obj) {
-		Cliente newObj;
-		newObj = find(obj.getId());
+		Cliente newObj = find(obj.getId());
 		updateData(newObj, obj);
 		return obj = repo.save(newObj); 
 		
@@ -125,7 +126,18 @@ public class ClienteService {
 	}
 	
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+		
+		UserSS user = UserService.authenticated();
+		if(user == null) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		URI uri = s3Service.uploadFile(multipartFile);
+		
+		Cliente cli = find(user.getId());
+		cli.setImageUrl(uri.toString());
+		repo.save(cli);
+		return uri;
+		
 	}
 
 }

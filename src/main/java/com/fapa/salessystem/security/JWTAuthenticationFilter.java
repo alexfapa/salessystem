@@ -47,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		
 	}
-	
+	  
 	@Override
 	public void successfulAuthentication(HttpServletRequest req, 
 			HttpServletResponse res,

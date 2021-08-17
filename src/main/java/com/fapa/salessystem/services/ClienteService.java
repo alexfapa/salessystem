@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.appstream.model.User;
 import com.fapa.salessystem.domain.Cidade;
 import com.fapa.salessystem.domain.Cliente;
 import com.fapa.salessystem.domain.Endereco;
@@ -106,6 +107,21 @@ public class ClienteService {
 	
 	public List<Cliente> findAll(){
 		return repo.findAll();
+	}
+	
+	public Cliente findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado!");
+		}
+		
+		Cliente obj = repo.findByEmail(email);
+		if(obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Cliente.class.getName()
+					);
+		}
+		return obj;
 	}
 	
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){

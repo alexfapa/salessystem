@@ -5,19 +5,24 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fapa.salessystem.domain.enums.Perfil;
 import com.fapa.salessystem.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 @Entity
 public class Cliente implements Serializable{
@@ -46,12 +51,16 @@ public class Cliente implements Serializable{
 	private Set<String> telefones = new HashSet<>();//não foi necessário criar a classe telefones, visto que seria muito simples com apenas um atributo. 
 												    //O tipo Set impede que existam valores repetidos
 	
+	@ElementCollection(fetch = FetchType.EAGER) //fetchType EAGER indica que quando o usuário for buscado automaticamente será buscado também o item abaixo
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {
-		
+		addPerfil(Perfil.CLIENTE); //isto faz com que todo usuário já seja criado com perfil cliente
 	}
 	
 	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente, String senha) {
@@ -62,6 +71,7 @@ public class Cliente implements Serializable{
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipoCliente = (tipoCliente == null) ? null : tipoCliente.getCod();
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
 	}
 	
 	public Integer getId() {
@@ -113,6 +123,14 @@ public class Cliente implements Serializable{
 		this.senha = senha;
 	}
 	
+	public Set<Perfil> getPerfis(){
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet()); //notação lambda
+	}
+	
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
+	}
+		
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -136,7 +154,7 @@ public class Cliente implements Serializable{
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -161,6 +179,5 @@ public class Cliente implements Serializable{
 			return false;
 		return true;
 	}
-
 	
 }

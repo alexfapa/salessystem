@@ -16,7 +16,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 	 *  tornando assim a operação mais rápida evitando o locking de uma transação de banco de dados
 	 *  
 	 *  O Método findByEmail serve para realizar a busca de cliente por email no banco de dados. 
-	 *  Obs.: apenas está anotação fará com que o framework crie o método
+	 *  Obs.: apenas esta anotação fará com que o framework crie o método
 	 * */
 	@Transactional(readOnly = true) 	
 	Cliente findByEmail(String email);
